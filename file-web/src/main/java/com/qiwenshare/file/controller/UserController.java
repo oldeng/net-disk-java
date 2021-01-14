@@ -66,6 +66,7 @@ public class UserController {
 
     @Operation(summary = "用户登录", description = "用户登录认证后才能进入系统", tags = {"user"})
     @GetMapping("/login")
+    // @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public RestResult<UserLoginVo> userLogin(
             @Parameter(description = "登录用户名") String username,
