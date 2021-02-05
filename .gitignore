@@ -5,3 +5,4 @@
 /scp-config/target
 /*.log
 /file-common/target
+/file-web/src/main/resources/application.properties

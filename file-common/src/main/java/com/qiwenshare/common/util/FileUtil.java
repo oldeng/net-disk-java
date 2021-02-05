@@ -9,7 +9,7 @@ public class FileUtil {
 
     public static final String[] IMG_FILE = {"bmp", "jpg", "png", "tif", "gif", "jpeg"};
     public static final String[] DOC_FILE = {"doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "hlp", "wps", "rtf", "html", "pdf"};
-    public static final String[] VIDEO_FILE = {"avi", "mp4", "mpg", "mov", "swf"};
+    public static final String[] VIDEO_FILE = {"avi", "mp4", "mpg", "mov", "swf", "flv"};
     public static final String[] MUSIC_FILE = {"wav", "aif", "au", "mp3", "ram", "wma", "mmf", "amr", "aac", "flac"};
     public static final String[] ASSETS_FILE = {"zip", "rar", "tar", "gz"};
     public static final int IMAGE_TYPE = 1;
