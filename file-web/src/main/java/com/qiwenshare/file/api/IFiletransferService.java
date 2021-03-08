@@ -7,10 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface IFiletransferService {
 
-
-
-
-
     /**
      * 上传文件
      * @param request 请求

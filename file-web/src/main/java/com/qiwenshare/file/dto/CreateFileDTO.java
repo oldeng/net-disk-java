@@ -10,4 +10,6 @@ public class CreateFileDTO {
     private String fileName;
     @Schema(description="文件路径")
     private String filePath;
+    @Schema(description = "是否为文件夹")
+    private Integer isDir;
 }

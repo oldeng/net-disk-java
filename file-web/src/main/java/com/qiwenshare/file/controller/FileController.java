@@ -59,16 +59,16 @@ public class FileController {
     @Operation(summary = "创建文件", description = "目录(文件夹)的创建", tags = {"file"})
     @RequestMapping(value = "/createfile", method = RequestMethod.POST)
     @ResponseBody
-    public RestResult<String> createFile(@RequestBody CreateFileDTO createFileDto, @RequestHeader("token") String token) {
-        RestResult<String> restResult = new RestResult<>();
+    public RestResult<UserFile> createFile(@RequestBody CreateFileDTO createFileDto, @RequestHeader("token") String token) {
+        RestResult<UserFile> restResult = new RestResult<>();
         if (!operationCheck(token).isSuccess()){
-            return operationCheck(token);
+            return checkFile(token);
         }
 
         UserBean sessionUserBean = userService.getUserBeanByToken(token);
 
         List<UserFile> userFiles = userFileService.selectUserFileByNameAndPath(createFileDto.getFileName(), createFileDto.getFilePath(), sessionUserBean.getUserId());
-        if (userFiles != null && !userFiles.isEmpty()) {
+        if (userFiles != null && !userFiles.isEmpty() && createFileDto.getIsDir() != 1) {
             restResult.setErrorMessage("同名文件已存在");
             restResult.setSuccess(false);
             return restResult;
@@ -83,8 +83,8 @@ public class FileController {
         userFile.setUploadTime(DateUtil.getCurrentTime());
 
         userFileService.save(userFile);
-
         restResult.setSuccess(true);
+        restResult.setData(userFile);
         return restResult;
     }
 
@@ -393,6 +393,27 @@ public class FileController {
             }
         }
         result.setSuccess(true);
+        return result;
+    }
+
+    public RestResult<UserFile> checkFile(String token){
+        UserFile userFile = new UserFile();
+        RestResult<UserFile> result = new RestResult<UserFile>();
+        UserBean sessionUserBean = userService.getUserBeanByToken(token);
+        if (sessionUserBean == null){
+            result.setSuccess(false);
+            result.setErrorMessage("未登录");
+            return result;
+        }
+        if (qiwenFileConfig.isShareMode()){
+            if (sessionUserBean.getUserId() > 2){
+                result.setSuccess(false);
+                result.setErrorMessage("没权限，请联系管理员！");
+                return result;
+            }
+        }
+        result.setSuccess(true);
+        result.setData(userFile);
         return result;
     }
 

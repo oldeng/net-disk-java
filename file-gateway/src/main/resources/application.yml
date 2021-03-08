@@ -1,0 +1,11 @@
+server:
+    port: 9000
+spring:
+  cloud:
+    gateway:
+      routes: 
+        - predicates:
+            - Path=/baidu/**
+          filters:
+            - StripPrefix=1
+          uri: "https://www.baidu.com"
