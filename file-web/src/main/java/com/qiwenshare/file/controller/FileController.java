@@ -91,10 +91,10 @@ public class FileController {
     @Operation(summary = "文件重命名", description = "文件重命名", tags = {"file"})
     @RequestMapping(value = "/renamefile", method = RequestMethod.POST)
     @ResponseBody
-    public RestResult<String> renameFile(@RequestBody RenameFileDTO renameFileDto, @RequestHeader("token") String token) {
-        RestResult<String> restResult = new RestResult<>();
-        if (!operationCheck(token).isSuccess()){
-            return operationCheck(token);
+    public RestResult<UserFile> renameFile(@RequestBody RenameFileDTO renameFileDto, @RequestHeader("token") String token) {
+        RestResult<UserFile> restResult = new RestResult<>();
+        if (!checkFile(token).isSuccess()){
+            return checkFile(token);
         }
         UserBean sessionUserBean = userService.getUserBeanByToken(token);
 
@@ -145,9 +145,10 @@ public class FileController {
                 userFileService.update(lambdaUpdateWrapper);
             }
 
-
         }
+        userFiles = userFileService.selectUserFileByNameAndPath(renameFileDto.getFileName(), renameFileDto.getFilePath(), sessionUserBean.getUserId());
         restResult.setSuccess(true);
+        restResult.setData(userFiles.get(0));
         return restResult;
     }
 
